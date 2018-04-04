@@ -12,11 +12,12 @@ import {createBrowserHistory} from 'history'
 import {syncHistoryWithStore} from 'react-router-redux'
 import {Provider} from 'react-redux'
 //import {Router, Route} from 'react-router'
-import {BrowserRouter, Link, Route} from 'react-router-dom'
+import {BrowserRouter, Link, Route, Switch} from 'react-router-dom'
 
 import reducers from 'reducers'
 import Layout from 'containers/layout'
 import Items from 'containers/items'
+import Item from 'containers/item'
 
 const store = createStore(reducers, composeWithDevTools(
 		applyMiddleware(thunk)
@@ -35,12 +36,20 @@ const history = syncHistoryWithStore(createBrowserHistory(), store);
 	document.getElementById('root')
 )*/
 
+/*<Route path="items/:id" component={Item} />
+<Route path="/" component={Items} />
+*/
+
 ReactDOM.render(
 	<Provider store = {store}>
 		<BrowserRouter>
 			<Layout>
-				<Route path="/" component={Items} />
+				<Switch>
+					<Route exact path="/" component={Items} />
+					<Route path="/items/:id" component={Item} />
+				</Switch>	
 			</Layout>
+				
 		</BrowserRouter>
 	</Provider>,
 	document.getElementById('root')
